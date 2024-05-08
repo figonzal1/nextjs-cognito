@@ -1,15 +1,9 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useEffect } from "react";
 
 const Home = () => {
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    console.log("Status", status);
-    console.log("Session", session);
-  }, [session, status]);
 
   if (session) {
     return (
@@ -41,6 +35,20 @@ const Home = () => {
             onClick={() => signIn()}
           >
             Iniciar sesión
+          </button>
+
+          <button
+            className="bg-blue-500 p-3 rounded-xl"
+            onClick={() => signIn('cognito')}
+          >
+            Iniciar sesión (cognito)
+          </button>
+
+          <button
+            className="bg-blue-500 p-3 rounded-xl"
+            onClick={() => signIn('google')}
+          >
+            Iniciar sesión (google)
           </button>
         </>
       )}

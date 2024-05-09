@@ -11,6 +11,7 @@ const Home = () => {
         <h1 className="text-6xl text-white font-bold">Testing cognito</h1>
 
         <h3 className="text-xl">Usuario logueado como {session.user?.email}</h3>
+        <p className="text-pretty w-full overflow-auto break-words">id_token {session.user?.idToken}</p>
         <button
           className="bg-orange-400 p-3 rounded-xl"
           onClick={() => signOut()}
@@ -42,13 +43,6 @@ const Home = () => {
             onClick={() => signIn('cognito')}
           >
             Iniciar sesión (cognito)
-          </button>
-
-          <button
-            className="bg-blue-500 p-3 rounded-xl"
-            onClick={() => signIn('google')}
-          >
-            Iniciar sesión (google)
           </button>
         </>
       )}

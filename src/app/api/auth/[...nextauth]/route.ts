@@ -65,6 +65,9 @@ const handler = NextAuth({
   providers: [cognitoProvider, customCognito],
   callbacks: {
     session({ session, token, user }) {
+  
+      session.user.idToken = token.idToken;
+
       console.log("TOken", token);
       console.log("Session", session);
       console.log("Usuario", user);
@@ -75,6 +78,10 @@ const handler = NextAuth({
     jwt({ account, token, user, profile, session, trigger }) {
       console.log("Account", account);
       console.log("Token", token);
+
+      if(account){
+        token.idToken =  account?.id_token;
+      }
 
       return token;
     },

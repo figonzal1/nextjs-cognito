@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { Account, Profile, User } from "next-auth";
 import CognitoProvider from "next-auth/providers/cognito";
 import CredentialsProvider from "next-auth/providers/credentials";
 import {
@@ -6,6 +6,7 @@ import {
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { JWT } from "next-auth/jwt";
 
 const cognitoProvider = CognitoProvider({
   clientId: process.env.COGNITO_CLIENT_ID_HOSTED as string,
@@ -62,6 +63,22 @@ const customCognito = CredentialsProvider({
 
 const handler = NextAuth({
   providers: [cognitoProvider, customCognito],
+  callbacks: {
+    session({ session, token, user }) {
+      console.log("TOken", token);
+      console.log("Session", session);
+      console.log("Usuario", user);
+
+      return session; // The return type will match the one returned in `useSession()`
+    },
+
+    jwt({ account, token, user, profile, session, trigger }) {
+      console.log("Account", account);
+      console.log("Token", token);
+
+      return token;
+    },
+  },
 });
 
 export { handler as GET, handler as POST };
